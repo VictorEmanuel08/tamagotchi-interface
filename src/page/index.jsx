@@ -2,27 +2,27 @@ import { useEffect, useState } from "react";
 import "../style/index.scss";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import pouExercito from "../assets/exercito.png";
-import pouTerno from "../assets/terno.png";
+import avatar1 from "../assets/avatar1/gif-avatar1.gif";
+import avatar2 from "../assets/avatar2/gif-avatar2.gif";
+import avatar3 from "../assets/avatar3/gif-avatar3.gif";
+import avatarDied from "../assets/avatar-died.png";
 
 export function Page() {
   const photos = [
     {
       index: 0,
-      emoji: "😃",
-      img: "https://play-lh.googleusercontent.com/xToRFw-mqA18HtizgutV0K1IouakfR8iJ3PW75u-1n1oxbP7hVfBMlgHWIwuUYKKS_s",
+      skin: "Anjo 👼",
+      img: avatar1,
     },
-    { emoji: "❤️", index: 1, img: pouTerno },
-    { emoji: "😂", index: 2, img: pouExercito },
+    { skin: "Marciano 👽", index: 1, img: avatar2 },
+    { skin: "Peste negra ☠️", index: 2, img: avatar3 },
   ];
 
   let nomePet = "Tamagotchi";
   const [felicidadePet, setFelicidadePet] = useState(50);
   const [fomePet, setFomePet] = useState(50);
-  const [emojiPet, setEmojiPet] = useState("😃");
-  const [roupaPet, setRoupaPet] = useState(
-    "https://play-lh.googleusercontent.com/xToRFw-mqA18HtizgutV0K1IouakfR8iJ3PW75u-1n1oxbP7hVfBMlgHWIwuUYKKS_s"
-  );
+  const [skinPet, setSkinPet] = useState("Anjo 👼");
+  const [roupaPet, setRoupaPet] = useState(avatar1);
 
   if (fomePet > 100) {
     setFomePet(100);
@@ -31,7 +31,7 @@ export function Page() {
     setFelicidadePet(100);
   }
 
-  console.log(emojiPet)
+  console.log(skinPet);
 
   function alimentar() {
     setFomePet(fomePet + 15);
@@ -48,6 +48,7 @@ export function Page() {
     setFomePet(fomePet - 10);
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function diminuirFelicidadeEFome() {
     setFelicidadePet(felicidadePet - 10);
     setFomePet(fomePet - 10);
@@ -70,6 +71,7 @@ export function Page() {
   useEffect(() => {
     if (fomePet <= 0 || felicidadePet <= 0) {
       notify();
+      setRoupaPet(avatarDied);
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -78,41 +80,44 @@ export function Page() {
 
     // Limpa o intervalo quando o componente é desmontado
     return () => clearInterval(intervalId);
-  }, [fomePet, felicidadePet]);
+  }, [fomePet, felicidadePet, diminuirFelicidadeEFome]);
 
-  const handleInfoPou = function (e) {
+  const handleInfoPet = function (e) {
     const selectedIndex = e.target.value;
     setRoupaPet(photos[selectedIndex].img);
-    setEmojiPet(photos[selectedIndex].emoji);
+    setSkinPet(photos[selectedIndex].skin);
   };
-  
 
   return (
     <div className="Page">
       <ToastContainer />
-      <div className="bichinho">
-        <div className="imagemBichinho">
-          <img src={roupaPet} alt="pou" />
-        </div>
-        <div className="infoBichinho">
-          <p>nome: {nomePet}</p>
-          <p>felicidadePet: {felicidadePet}</p>
-          <p>fome: {fomePet}</p>
-          <p>emoji: {emojiPet}</p>
-        </div>
+      <div className="imagemBichinho">
+        <img src={roupaPet} alt="pou" />
       </div>
-      <div className="botoes">
-        <button onClick={alimentar}>Alimentar</button>
-        <button onClick={darCarinho}>Dar carinho</button>
-        <button onClick={levarPraPassear}>Levar pra passear</button>
-        <label>
-          Mudar roupa:
-          <select defaultValue={emojiPet} onChange={handleInfoPou}>
-            {photos.map((pou, index) => {
-              return <option value={pou.index} key={index}>{pou.emoji}</option>;
-            })}
-          </select>
-        </label>
+      <div className="bichinho">
+        <div className="infoBichinho">
+          <div>Nome: {nomePet}</div>
+          <div>Felicidade: {felicidadePet}</div>
+          <div>Fome: {fomePet}</div>
+          <div>Skin: {skinPet}</div>
+        </div>
+        <div className="botoes">
+          <button onClick={alimentar}>Alimentar</button>
+          <button onClick={darCarinho}>Dar carinho</button>
+          <button onClick={levarPraPassear}>Levar pra passear</button>
+          <label>
+            Mudar roupa:
+            <select defaultValue={skinPet} onChange={handleInfoPet}>
+              {photos.map((pet, index) => {
+                return (
+                  <option value={pet.index} key={index}>
+                    {pet.skin}
+                  </option>
+                );
+              })}
+            </select>
+          </label>
+        </div>
       </div>
     </div>
   );

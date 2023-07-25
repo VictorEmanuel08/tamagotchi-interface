@@ -1,5 +1,32 @@
-.Page{
-background-color: white;
-width: 100%;
-height: 100vh;
+.Page {
+  background-color: #fff5ee;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+.imagemBichinho {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img{
+    width: 50%;
+  }
+}
+.bichinho {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: row;
+}
+
+.botoes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
