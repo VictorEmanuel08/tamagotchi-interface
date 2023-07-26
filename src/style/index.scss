@@ -1,10 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Handjet:wght@500&display=swap");
+
+$colorBlue: #00008b;
+$colorgreen: #4caf50;
+$border-radius-button: 2rem;
+
 .Page {
-  background-color: #00008b;
+  background-color: $colorBlue;
   width: 100%;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: Handjet;
 }
 
 .bichinho {
@@ -22,10 +29,14 @@
 }
 
 .nomeBichinho {
-  color: #ffffff;
-  font-size: 1rem;
+  background-color: #ececec;
+  color: #000000;
+  padding: 0.5rem;
+  border-radius: $border-radius-button;
+  font-size: 1.3rem;
   position: absolute;
   top: 5%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .infoBichinho {
@@ -73,6 +84,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  user-select: none;
 
   .botoes {
     width: 20%;
@@ -88,14 +100,14 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      background-color: #4caf50;
+      background-color: $colorgreen;
       color: #ffffff;
       border-radius: 0.5rem;
       border: none;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       transition: background-color 0.3s ease-in-out;
       margin-bottom: 1rem;
-      font-size: 0.75rem;
+      font-size: 1rem;
       text-align: center;
       &:hover {
         background-color: #45a049;
@@ -111,8 +123,8 @@
     overflow: hidden; // Adicionar overflow: hidden para recortar a imagem
 
     .imagem {
-      max-width: 90%;
-      max-height: 90%;
+      min-width: 40%;
+      min-height: 40%;
     }
   }
 
@@ -124,15 +136,15 @@
     flex-direction: column;
     padding-right: 1rem;
     color: #ffffff;
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-weight: bold;
     select {
       border-radius: 2rem;
-      background-color: #4caf50;
+      background-color: $colorgreen;
       color: #ffffff;
       option {
         text-align: center;
-        font-size: 0.75rem;
+        font-size: 1rem;
       }
     }
   }
@@ -148,19 +160,73 @@
   background-color: #ececec;
   position: absolute;
   border-radius: 2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
   & > *:not(:last-child) {
     margin-bottom: 5rem;
   }
-  input{
+  .infoName {
+    font-size: 1.3rem;
+    color: $colorBlue;
+    font-weight: bolder;
+  }
+  .inputName {
+    width: 50%;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: $border-radius-button;
+    border: none;
+    outline: none;
     text-transform: uppercase;
+    color: $colorBlue;
+    font-weight: bolder;
   }
   .botaoName {
-    width: 20%;
+    width: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
     border-radius: 2rem;
     color: #ffffff;
+    background-color: $colorBlue;
+  }
+}
+
+.modalDied {
+  width: 30%;
+  height: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  top: 3%;
+  background-color: #ff0000;
+  border-radius: 2rem;
+  & > *:not(:last-child) {
+    margin-bottom: 5rem;
+  }
+  .infoDied {
+    color: $colorBlue;
+    background-color: #ececec;
+    padding: 0.75rem;
+    border-radius: $border-radius-button;
+    font-weight: bolder;
+    text-align: center;
+  }
+  .botaoName {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    color: #ffffff;
+    background-color: $colorBlue;
+    cursor: pointer;
+    &:hover {
+      background-color: #020263;
+    }
   }
 }

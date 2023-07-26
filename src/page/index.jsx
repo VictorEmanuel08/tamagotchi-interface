@@ -32,9 +32,14 @@ export function Page() {
   const [roupaPet, setRoupaPet] = useState(avatar1);
 
   const [isOpenModalName, setIsOpenModalName] = useState(true);
+  const [isOpenModalDied, setIsOpenModalDied] = useState(false);
 
   function closeModalImage() {
     setIsOpenModalName(false);
+  }
+  function closeModalDied() {
+    setIsOpenModalDied(false);
+    window.location.reload();
   }
 
   if (fomePet > 100) {
@@ -45,53 +50,78 @@ export function Page() {
   }
 
   function alimentar() {
-    setFomePet(fomePet + 15);
+    setFomePet(fomePet + 10);
     setFelicidadePet(felicidadePet + 5);
   }
 
   function darCarinho() {
-    setFelicidadePet(felicidadePet + 15);
     setFomePet(fomePet - 5);
+    setFelicidadePet(felicidadePet + 10);
   }
 
   function levarPraPassear() {
-    setFelicidadePet(felicidadePet + 20);
     setFomePet(fomePet - 10);
+    setFelicidadePet(felicidadePet + 20);
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function diminuirFelicidadeEFome() {
-    setFelicidadePet(felicidadePet - 10);
     setFomePet(fomePet - 10);
+    setFelicidadePet(felicidadePet - 10);
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const notify = () => {
-    toast.error("Seu bichinho morreu :c \n Reiniciando...", {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.error(
+      `${nomePet} morreu :c
+      Reinicie e vamos jogar novamente.`,
+      {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        // Quebra de linha
+        style: {
+          whiteSpace: "pre-line",
+        },
+      }
+    );
   };
 
-  // Efeito para chamar a função a cada 5 segundos
+  const [hasDiedToastShown, setHasDiedToastShown] = useState(false);
+
   useEffect(() => {
     if (fomePet <= 0 || felicidadePet <= 0) {
-      notify();
+      if (!hasDiedToastShown) {
+        notify();
+        setHasDiedToastShown(true);
+      }
       setRoupaPet(avatarDied);
       setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+        setIsOpenModalDied(true);
+      }, 1500);
     }
-    const intervalId = setInterval(diminuirFelicidadeEFome, 100000000000000);
 
-    // Limpa o intervalo quando o componente é desmontado
-    return () => clearInterval(intervalId);
-  }, [fomePet, felicidadePet, diminuirFelicidadeEFome]);
+    //quando o modal do nome for fechado, a diminuição iniciará
+    if (!isOpenModalName) {
+      // Efeito para chamar a função a cada 10 segundos
+      const intervalId = setInterval(diminuirFelicidadeEFome, 1000000);
+
+      // Limpa o intervalo quando o componente é desmontado
+      return () => clearInterval(intervalId);
+    }
+  }, [
+    fomePet,
+    felicidadePet,
+    diminuirFelicidadeEFome,
+    hasDiedToastShown,
+    notify,
+    isOpenModalName,
+  ]);
 
   const handleInfoPet = function (e) {
     const selectedIndex = e.target.value;
@@ -99,11 +129,23 @@ export function Page() {
     setSkinPet(photos[selectedIndex].skin);
   };
 
+  const handleChangeName = (e) => {
+    const namePet = e.target.value.replace(/[^a-zA-Z0-9\s]/g, "");
+    setNomePet(namePet.toUpperCase());
+  };
+
   return (
     <div className="Page">
       <ToastContainer />
 
-      <div className="bichinho">
+      <div
+        className="bichinho"
+        //Quando o modal do nome estiver aperto,
+        //tudo ao fundo ficará borrado
+        style={{
+          filter: isOpenModalName === true ? "blur(5px)" : "none",
+        }}
+      >
         <div className="nomeBichinho">{nomePet}</div>
         <div className="infoBichinho">
           <div className="progress-bar">
@@ -145,10 +187,22 @@ export function Page() {
         </div>
         <div className="containerBichinho">
           <div className="botoes">
-            <div className="botaoBichinho" onClick={alimentar}>
+            <div
+              className="botaoBichinho"
+              onClick={fomePet === 100 ? null : alimentar}
+              style={{
+                cursor: fomePet === 100 ? "not-allowed" : "pointer",
+              }}
+            >
               Alimentar <CgSmartHomeRefrigerator />
             </div>
-            <div className="botaoBichinho" onClick={darCarinho}>
+            <div
+              className="botaoBichinho"
+              onClick={felicidadePet === 100 ? null : darCarinho}
+              style={{
+                cursor: felicidadePet === 100 ? "not-allowed" : "pointer",
+              }}
+            >
               Dar carinho <FaHandHoldingHeart />
             </div>
             <div className="botaoBichinho" onClick={levarPraPassear}>
@@ -156,7 +210,17 @@ export function Page() {
             </div>
           </div>
           <div className="imagemBichinho">
-            <img src={roupaPet} alt="skin do bichinho" className="imagem" />
+            <img
+              src={roupaPet}
+              alt="skin do bichinho"
+              className="imagem"
+              style={{
+                maxWidth: `${fomePet}%`,
+                maxHeight: `${fomePet}%`,
+                transition:
+                  "max-width 0.5s ease-in-out, max-height 0.5s ease-in-out",
+              }}
+            />
           </div>
           <div className="skinBichinho">
             MUDE A SKIN
@@ -174,8 +238,14 @@ export function Page() {
       </div>
       {isOpenModalName && (
         <div className="modalInicial">
-          <p>INSIRA O NOME DO SEU BICHINHO</p>
-          <input type="text" onChange={(e) => setNomePet(e.target.value.toUpperCase())} />
+          <p className="infoName">INSIRA O NOME DO SEU BICHINHO</p>
+          <input
+            className="inputName"
+            type="text"
+            maxLength={20}
+            value={nomePet}
+            onChange={handleChangeName}
+          />
           <div
             className="botaoName"
             onClick={nomePet.length === 0 ? null : closeModalImage}
@@ -185,7 +255,15 @@ export function Page() {
               opacity: nomePet.length === 0 ? 0.6 : 1, // Opacidade reduzida quando desabilitado
             }}
           >
-            Ok
+            OK
+          </div>
+        </div>
+      )}
+      {isOpenModalDied && (
+        <div className="modalDied">
+          <p className="infoDied">{nomePet} MORREU :c</p>
+          <div className="botaoName" onClick={closeModalDied}>
+            REINICIAR
           </div>
         </div>
       )}
