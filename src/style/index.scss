@@ -1,32 +1,166 @@
 .Page {
-  background-color: #fff5ee;
+  background-color: #00008b;
   width: 100%;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
 }
-.imagemBichinho {
-  width: 50%;
+
+.bichinho {
+  width: 40rem;
+  height: 40rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  position: relative;
+  background-image: url("../assets/wallpaper.jpg");
+  border-radius: 50%;
+  background-size: cover; // Ajustar o tamanho da imagem para preencher a div
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.nomeBichinho {
+  color: #ffffff;
+  font-size: 1rem;
+  position: absolute;
+  top: 5%;
+}
+
+.infoBichinho {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+
+  position: absolute;
+  top: 12%;
+  .progress-bar {
+    width: 15%;
+
+    background-color: inherit; /* Cor do fundo da barra */
+    border: 1px #f0f0f0 solid;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+
+    position: relative;
+  }
+
+  .bar {
+    width: 100%;
+    height: 2rem;
+    font-weight: bold;
+    transition: width 0.5s ease-in-out; /* Transição suave da barra de progresso */
+    background: linear-gradient(45deg, #4caf50, #8bc34a);
+    border-radius: 0.5rem;
+  }
+
+  .icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #f0f0f0;
+  }
+}
+
+.containerBichinho {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  img{
-    width: 50%;
+  flex-direction: row;
+
+  .botoes {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-left: 1rem;
+    cursor: pointer;
+    .botaoBichinho {
+      width: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background-color: #4caf50;
+      color: #ffffff;
+      border-radius: 0.5rem;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease-in-out;
+      margin-bottom: 1rem;
+      font-size: 0.75rem;
+      text-align: center;
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  }
+
+  .imagemBichinho {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; // Adicionar overflow: hidden para recortar a imagem
+
+    .imagem {
+      max-width: 90%;
+      max-height: 90%;
+    }
+  }
+
+  .skinBichinho {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-right: 1rem;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: bold;
+    select {
+      border-radius: 2rem;
+      background-color: #4caf50;
+      color: #ffffff;
+      option {
+        text-align: center;
+        font-size: 0.75rem;
+      }
+    }
   }
 }
-.bichinho {
-  width: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  flex-direction: row;
-}
 
-.botoes {
+.modalInicial {
+  width: 50%;
+  height: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background-color: #ececec;
+  position: absolute;
+  border-radius: 2rem;
+  & > *:not(:last-child) {
+    margin-bottom: 5rem;
+  }
+  input{
+    text-transform: uppercase;
+  }
+  .botaoName {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    color: #ffffff;
+  }
 }
